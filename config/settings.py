@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "users",
     "materials",
+    "django_filter",
 ]
 
 MIDDLEWARE = [
@@ -76,6 +77,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
+REST_FRAMEWORK = {
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilter.Backend"]
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

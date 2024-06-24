@@ -36,3 +36,34 @@ class User(AbstractUser):
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
+
+
+class Payment(models.Model):
+    PAYMENT_METHOD = (("CASH", "cash"), ("CASHLESS", "cashless"))
+
+    user = models.ForeignKey(
+        "users.User", on_delete=models.CASCADE, verbose_name="Пользователь"
+    )
+    pay_day = models.DateField(auto_now_add=True, verbose_name="Дата оплаты")
+    paid_course = models.ForeignKey(
+        "materials.Course",
+        on_delete=models.SET_NULL,
+        verbose_name="Оплаченный курс",
+        blank=True,
+        null=True,
+    )
+    paid_lesson = models.ForeignKey(
+        "materials.Lesson",
+        on_delete=models.SET_NULL,
+        verbose_name="Оплаченный курок",
+        blank=True,
+        null=True,
+    )
+    payment_amount = models.IntegerField(verbose_name="Сумма оплаты")
+    payment_method = models.CharField(
+        verbose_name="Способ оплаты", choices=PAYMENT_METHOD
+    )
+
+    class Meta:
+        verbose_name = "Оплата"
+        verbose_name_plural = "Оплаты"
