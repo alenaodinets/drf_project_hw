@@ -1,5 +1,7 @@
 from django.db import models
 
+from config.settings import AUTH_USER_MODEL
+
 
 # Create your models here.
 class Course(models.Model):
@@ -18,6 +20,13 @@ class Course(models.Model):
         null=True,
         verbose_name="Описание",
         help_text="Укажите описание курса",
+    )
+    owner = models.ForeignKey(
+        AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        verbose_name="Владелец",
     )
 
     def __str__(self):
@@ -55,6 +64,13 @@ class Lesson(models.Model):
         help_text="Выберите курс",
         blank=True,
         null=True,
+    )
+    owner = models.ForeignKey(
+        AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        verbose_name="Владелец",
     )
 
     def __str__(self):
