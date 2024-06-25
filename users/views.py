@@ -1,4 +1,6 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, filters
+from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.generics import (
     CreateAPIView,
@@ -13,14 +15,40 @@ from users.serializer import PaymentSerializer, UserSerializer
 
 
 # Create your views here.
+class PaymentCreateAPIView(CreateAPIView):
+
+    serializer_class = PaymentSerializer
+    permission_classes = [IsAuthenticated]
 
 
-class PaymentViewSet(viewsets.ModelViewSet):
+class PaymentListAPIView(ListAPIView):
+
     serializer_class = PaymentSerializer
     queryset = Payment.objects.all()
-    filter_backends = [filters.OrderingFilter]
-    filterset_fields = ["paid_course", "payment_method"]
-    ordering_fields = ("pay_day",)
+    filter_backends = [OrderingFilter, DjangoFilterBackend]
+    ordering_fields = ['pay_day']
+    filterset_fields = ['paid_course', 'payment_method']
+    permission_classes = [IsAuthenticated]
+
+
+class PaymentRetrieveAPIView(RetrieveAPIView):
+
+    serializer_class = PaymentSerializer
+    queryset = Payment.objects.all()
+    permission_classes = [IsAuthenticated]
+
+
+class PaymentUpdateAPIView(UpdateAPIView):
+
+    serializer_class = PaymentSerializer
+    queryset = Payment.objects.all()
+    permission_classes = [IsAuthenticated]
+
+
+class PaymentDestroyAPIView(DestroyAPIView):
+
+    queryset = Payment.objects.all()
+    permission_classes = [IsAuthenticated]
 
 
 class UserCreateAPIView(CreateAPIView):
