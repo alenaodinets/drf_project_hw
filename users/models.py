@@ -55,7 +55,7 @@ class Payment(models.Model):
     paid_lesson = models.ForeignKey(
         "materials.Lesson",
         on_delete=models.SET_NULL,
-        verbose_name="Оплаченный курок",
+        verbose_name="Оплаченный урок",
         blank=True,
         null=True,
     )

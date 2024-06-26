@@ -1,0 +1,92 @@
+[
+  {
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$720000$aTCXgIB2WFJ2mSq3Z9qGug$6st8L9HJ0GZMkoinBiRecE5sx+6K3/RiaJ7bnHj9to8=",
+      "last_login": "2024-06-24T08:13:54.744Z",
+      "is_superuser": true,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2024-06-24T08:10:51.448Z",
+      "email": "admin@sky.pro",
+      "phone": null,
+      "city": null,
+      "avatar": "",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 2,
+    "fields": {
+      "password": "123",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2024-06-24T08:15:14Z",
+      "email": "testing@sky.pro",
+      "phone": null,
+      "city": null,
+      "avatar": "",
+      "groups": [
+        1
+      ],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.payment",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "pay_day": "2024-06-26",
+      "paid_course": null,
+      "paid_lesson": null,
+      "payment_amount": 15000,
+      "payment_method": "CASH"
+    }
+  },
+  {
+    "model": "users.payment",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "pay_day": "2024-06-26",
+      "paid_course": null,
+      "paid_lesson": null,
+      "payment_amount": 10000,
+      "payment_method": "CASHLESS"
+    }
+  },
+  {
+    "model": "users.payment",
+    "pk": 3,
+    "fields": {
+      "user": 1,
+      "pay_day": "2024-06-26",
+      "paid_course": null,
+      "paid_lesson": null,
+      "payment_amount": 9800,
+      "payment_method": "CASH"
+    }
+  },
+  {
+    "model": "users.payment",
+    "pk": 4,
+    "fields": {
+      "user": 2,
+      "pay_day": "2024-06-26",
+      "paid_course": null,
+      "paid_lesson": null,
+      "payment_amount": 15000,
+      "payment_method": "CASHLESS"
+    }
+  }
+]
