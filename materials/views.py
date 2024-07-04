@@ -20,7 +20,14 @@ from materials.serializer import (
     CourseDetailSerializer,
     SubscriptionSerializer,
 )
+from materials.services import (
+    create_stripe_product,
+    create_stripe_price,
+    create_stripe_session,
+)
+from users.models import Payment
 from users.permissions import IsModerator, IsOwner
+from users.serializer import PaymentSerializer
 
 
 # Create your views here.
@@ -104,3 +111,20 @@ class SubscriptionAPIView(APIView):
             Subscription.objects.create(user=user, course=course)
             message = "Подписка добавлена"
         return Response({"message": message})
+
+
+class PaymentCreateAPIView(CreateAPIView):
+
+    serializer_class = PaymentSerializer
+    queryset = Payment.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        payment = serializer.save(user=self.request.user)
+        product = payment.paid_lesson if payment.paid_lesson else payment.paid_course
+        stripe_product = create_stripe_product(product)
+        price = create_stripe_price(product.price, stripe_product)
+        session_id, payment_link = create_stripe_session(price)
+        payment.session_id = session_id
+        payment.link = payment_link
+        payment.save()
