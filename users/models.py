@@ -29,6 +29,8 @@ class User(AbstractUser):
         verbose_name="Аватар",
         help_text="Загрузите ваш аватар",
     )
+    last_login = models.DateTimeField(blank=True, null=True, verbose_name='Дата последнего входа')
+    is_active = models.BooleanField(default=False, verbose_name='Активен')
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -63,6 +65,7 @@ class Payment(models.Model):
     payment_method = models.CharField(
         verbose_name="Способ оплаты", choices=PAYMENT_METHOD
     )
+
 
     class Meta:
         verbose_name = "Оплата"
