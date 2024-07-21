@@ -29,6 +29,8 @@ from users.models import Payment
 from users.permissions import IsModerator, IsOwner
 from users.serializer import PaymentSerializer
 
+from materials.tasks import send_email
+
 
 # Create your views here.
 
@@ -47,6 +49,10 @@ class CourseViewSet(ModelViewSet):
         course = serializer.save()
         course.owner = self.request.user
         course.save()
+
+    def perform_update(self, serializer):
+        course = serializer.save()
+        send_email.delay(course.pk, self.request.user)
 
     def get_permissions(self):
         if self.action in ["retrieve", "update"]:
