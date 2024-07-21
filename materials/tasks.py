@@ -10,8 +10,8 @@ def send_email(pk, user):
     course = Course.objects.get(pk=pk)
     subs = course.subscription_set.all().filter(user=user)
     email_list = [user.email for subs.user in subs]
-    message_subject = f'Обновление курса {course}'
-    message_text = f'Обновление курса {course}'
+    message_subject = f"Обновление курса {course}"
+    message_text = f"Обновление курса {course}"
     try:
         server_response = send_mail(
             subject=message_subject,

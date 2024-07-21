@@ -24,6 +24,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         # Добавление пользовательских полей в токен
 
-        token['email'] = user.email
+        token["email"] = user.email
 
         return token

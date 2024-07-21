@@ -1,6 +1,7 @@
 from datetime import datetime
 
 import pytz
+from django.shortcuts import redirect
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, filters
 from rest_framework.filters import OrderingFilter
@@ -17,7 +18,11 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from config import settings
 from users.permissions import IsOwner, IsModerator
 from users.models import Payment, User
-from users.serializer import PaymentSerializer, UserSerializer, MyTokenObtainPairSerializer
+from users.serializer import (
+    PaymentSerializer,
+    UserSerializer,
+    MyTokenObtainPairSerializer,
+)
 
 
 # Create your views here.
@@ -95,6 +100,14 @@ class UserDestroyAPIView(DestroyAPIView):
         IsAuthenticated,
         IsOwner | IsModerator,
     )
+
+    @staticmethod
+    def verification_view(token):
+        user = User.objects.filter(verification_code=token).first()
+        if user:
+            user.is_active = True
+            user.save()
+        return redirect("users:login")
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
