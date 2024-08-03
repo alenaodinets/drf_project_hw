@@ -50,9 +50,10 @@ class CourseViewSet(ModelViewSet):
         course.owner = self.request.user
         course.save()
 
-    def perform_update(self, serializer):
-        course = serializer.save()
-        send_email.delay(course.pk, self.request.user)
+    def update(self, request):
+        subscribers = Subscription.objects.filter(is_subscribed=True)
+        if subscribers.exists():
+            send_email.delay()
 
     def get_permissions(self):
         if self.action in ["retrieve", "update"]:
@@ -80,6 +81,12 @@ class LessonListApiView(ListAPIView):
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = MaterialsPaginator
+
+    def get(self, request, *args, **kwargs):
+        queryset = Lesson.objects.all()
+        paginated_queryset = self.paginate_queryset(queryset)
+        serializer = LessonSerializer(paginated_queryset, many=True)
+        return self.get_paginated_response(serializer.data)
 
 
 class LessonRetrieveAPIView(RetrieveAPIView):

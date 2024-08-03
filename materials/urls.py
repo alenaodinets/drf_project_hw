@@ -11,6 +11,8 @@ from materials.views import (
     SubscriptionAPIView,
     PaymentCreateAPIView,
 )
+from users.views import PaymentListAPIView
+
 
 app_name = MaterialsConfig.name
 router = SimpleRouter()
@@ -31,6 +33,7 @@ urlpatterns = [
     ),
     path("course/<int:pk>/subscribe/", SubscriptionAPIView.as_view(), name="subscribe"),
     path("payment/create", PaymentCreateAPIView.as_view(), name="payment_create"),
+    path('payment/', PaymentListAPIView.as_view(), name='payment-list'),
 ]
 
 urlpatterns += router.urls
